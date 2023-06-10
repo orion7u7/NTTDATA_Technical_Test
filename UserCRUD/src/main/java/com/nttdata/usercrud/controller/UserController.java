@@ -5,15 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nttdata.usercrud.entity.UserEntity;
 import com.nttdata.usercrud.model.Task;
 import com.nttdata.usercrud.service.UserService;
-import io.swagger.v3.oas.models.OpenAPI;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.sql.Date;
 
 import java.util.HashMap;
 import java.util.List;
@@ -110,7 +111,7 @@ public class UserController {
 
 
 
-    @PostMapping("/task/{id}")
+    @PostMapping("/saveTask/{id}")
     public ResponseEntity<Task> saveTask(@PathVariable("id") int usuarioId, @Valid @RequestBody Task task) {
         Task savedTask = userService.saveTask(usuarioId, task);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
@@ -119,6 +120,14 @@ public class UserController {
     @GetMapping("/taskCompleted")
     public ResponseEntity<Map<String, Object>> getUserByTaskCompleted() {
         Map<String, Object> response = userService.getUserByTaskCompleted();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/taskDate/{date}")
+    public ResponseEntity<Map<String, Object>> getUserByTaskDate(@PathVariable("date") Date date ) {
+        Map<String, Object> response = userService.getUserByStartDateAfter(date);
+        if (response.isEmpty())
+            return ResponseEntity.noContent().build();
         return ResponseEntity.ok(response);
     }
 

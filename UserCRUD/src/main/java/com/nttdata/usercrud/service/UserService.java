@@ -7,6 +7,7 @@ import com.nttdata.usercrud.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,21 @@ public class UserService {
         result.put("users", users);
         return result;
     }
+
+    public Map<String,Object> getUserByStartDateAfter(Date date) {
+        Map<String, Object> result = new HashMap<>();
+        List<Task> tasks = taskFeignClient.findByStartDateAfter(date);
+        List<UserEntity> users = new ArrayList<>();
+
+        for (Task task : tasks) {
+            List<UserEntity> taskUsers = userRepository.findByIds(List.of(task.getIdUser()));
+            users.addAll(taskUsers);
+        }
+        result.put("tasks", tasks);
+        result.put("users", users);
+        return result;
+    }
+
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
