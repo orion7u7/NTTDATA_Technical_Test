@@ -7,8 +7,8 @@ spring:
       server:
         git:
           default-label: ConfigService
-          uri: https://github.com/orion7u7/NTTDATA_Technical_Test
+          uri: https://github.com/orion7u7/NTTDATA_Technical_Test.git
           search-paths: config-data
 
   application:
-    name: config-server
+    name: ConfigService
