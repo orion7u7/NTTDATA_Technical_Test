@@ -1,0 +1,7 @@
+spring:
+  application:
+    admin: TaskCRUD
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8083
