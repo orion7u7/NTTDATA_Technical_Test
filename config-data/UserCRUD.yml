@@ -3,10 +3,11 @@ springdoc:
     path: /swagger-ui.html
 
 server:
+  port: 8081
   error:
     include-message: always
     include-stacktrace: on_param
-  port: 8081
+  
 
 
 spring:
